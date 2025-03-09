@@ -1,0 +1,15 @@
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\bin\Debug\net9.0\TcpServer.exe
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\bin\Debug\net9.0\TcpServer.deps.json
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\bin\Debug\net9.0\TcpServer.runtimeconfig.json
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\bin\Debug\net9.0\TcpServer.dll
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\bin\Debug\net9.0\TcpServer.pdb
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\obj\Debug\net9.0\TcpServer.GeneratedMSBuildEditorConfig.editorconfig
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\obj\Debug\net9.0\TcpServer.AssemblyInfoInputs.cache
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\obj\Debug\net9.0\TcpServer.AssemblyInfo.cs
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\obj\Debug\net9.0\TcpServer.csproj.CoreCompileInputs.cache
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\obj\Debug\net9.0\TcpServer.sourcelink.json
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\obj\Debug\net9.0\TcpServer.dll
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\obj\Debug\net9.0\refint\TcpServer.dll
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\obj\Debug\net9.0\TcpServer.pdb
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\obj\Debug\net9.0\TcpServer.genruntimeconfig.cache
+D:\whisper3zzz\git\InternetFramework\Server\TcpServer\TcpServer\obj\Debug\net9.0\ref\TcpServer.dll

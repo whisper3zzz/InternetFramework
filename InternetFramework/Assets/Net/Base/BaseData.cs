@@ -24,7 +24,7 @@ public abstract class BaseData
     /// <param name="value">具体的值</param>
     /// <param name="bytes">指定的字节数组</param>
     /// <param name="offset">记录当前索引位置</param>
-    protected void SerializeValue2Bytes<T>(T value, byte[] bytes, ref int offset) where T : struct
+    protected void SerializeValue2Bytes<T>(T value, byte[] bytes, ref int offset)
     {
         byte[] valueBytes;
 
@@ -105,7 +105,7 @@ public abstract class BaseData
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
     /// <exception cref="ArgumentException"></exception>
-    protected T DeserializeValueFromBytes<T>(byte[] bytes, ref int offset) where T : struct
+    protected T DeserializeValueFromBytes<T>(byte[] bytes, ref int offset)
     {
         T value;
         int size;
