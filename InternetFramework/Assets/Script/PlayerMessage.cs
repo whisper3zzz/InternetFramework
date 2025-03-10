@@ -6,9 +6,12 @@
     public override byte[] Serialize2Bytes()
     {
         int index = 0;
-        byte[] bytes = new byte[GetBytesCount()];
+        int length = GetBytesCount();
+        byte[] bytes = new byte[length];
         SerializeValue2Bytes(GetMsgTypeFromId(), bytes, ref index);
+        SerializeValue2Bytes(length - 8, bytes, ref index);
         SerializeValue2Bytes(PlayerId, bytes, ref index);
+
         SerializeValue2Bytes(PlayerData, bytes, ref index);
         return bytes;
     }
@@ -23,7 +26,10 @@
 
     public override int GetBytesCount()
     {
-        return 4 + 4 + PlayerData.GetBytesCount();
+        return 4 //ID长度
+               + 4 //包长
+               + 4 //playerId 长度
+               + PlayerData.GetBytesCount();
     }
 
     public override int GetMsgTypeFromId()

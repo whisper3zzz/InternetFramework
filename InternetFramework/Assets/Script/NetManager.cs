@@ -13,21 +13,20 @@ public class NetManager : MonoSingleton<NetManager>
     private Socket _socket;
 
     private Queue<BaseMessage> _msgQueue = new Queue<BaseMessage>();
+
     private Queue<BaseMessage> _receiveQueue = new Queue<BaseMessage>();
-    private byte[] receiveBytes = new byte[1024 * 1024];
-    private int _receiveNum;
+    // private byte[] receiveBytes = new byte[1024 * 1024];
+    // private int _receiveNum;
+
+    [Header("处理分包时缓存的字节数组和长度")] private byte[] _cacheBytes = new byte[1024 * 1024];
+    private int _cacheLength = 0;
 
     private bool _isConnected = false;
     // private Thread _sendThread;
     //
     // private Thread _receiveThread;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
 
-    // Update is called once per frame
     void Update()
     {
         if (_receiveQueue.Count > 0)
@@ -89,20 +88,79 @@ public class NetManager : MonoSingleton<NetManager>
         while (!_isConnected)
         {
             if (_socket.Available <= 0) continue;
-            _receiveNum = _socket.Receive(receiveBytes);
-            int msgId = BitConverter.ToInt32(receiveBytes, 0);
-            BaseMessage msgObj = null;
-            switch (msgId)
+            byte[] receiveBytes = new byte[1024 * 1024];
+            int receiveNum = _socket.Receive(receiveBytes);
+            HandleReceiveMsg(receiveBytes, receiveNum);
+
+
+            //     int msgId = BitConverter.ToInt32(receiveBytes, 0);
+            //     BaseMessage msgObj = null;
+            //     switch (msgId)
+            //     {
+            //         case 1001:
+            //             PlayerMessage playerMessage = new PlayerMessage();
+            //             playerMessage.DeserializeFromBytes(receiveBytes, 4);
+            //             msgObj = playerMessage;
+            //             break;
+            //     }
+            //
+            //     if (msgObj != null)
+            //         _receiveQueue.Enqueue(msgObj);
+            // }
+        }
+    }
+
+    private void HandleReceiveMsg(byte[] bytes, int receiveNum)
+    {
+        int msgId = 0;
+        int msgLength = 0;
+        int currentIndex = 0;
+        bytes.CopyTo(_cacheBytes, _cacheLength);
+        _cacheLength += receiveNum;
+        while (true)
+        {
+            msgLength = -1;
+            if (_cacheLength >= 8)
             {
-                case 1001:
-                    PlayerMessage playerMessage = new PlayerMessage();
-                    playerMessage.DeserializeFromBytes(receiveBytes, 4);
-                    msgObj = playerMessage;
-                    break;
+                msgId = BitConverter.ToInt32(_cacheBytes, currentIndex);
+                currentIndex += 4;
+                msgLength = BitConverter.ToInt32(_cacheBytes, currentIndex);
+                currentIndex += 4;
             }
 
-            if (msgObj != null)
-                _receiveQueue.Enqueue(msgObj);
+            if (_cacheLength - 8 >= msgLength && msgLength != -1)
+            {
+                BaseMessage msgObj = null;
+                switch (msgId)
+                {
+                    case 1001:
+                        PlayerMessage playerMessage = new PlayerMessage();
+                        playerMessage.DeserializeFromBytes(_cacheBytes, currentIndex);
+                        msgObj = playerMessage;
+                        break;
+                }
+
+                if (msgObj != null)
+                    _receiveQueue.Enqueue(msgObj);
+                currentIndex += msgLength;
+                if (currentIndex == _cacheLength)
+                {
+                    _cacheLength = 0;
+                    break;
+                }
+            }
+            else
+            {
+                //解析了ID和长度，但是数据不够，没有解析完整Msg
+                if (msgLength != -1)
+                {
+                    currentIndex -= 8;
+                }
+
+                Array.Copy(_cacheBytes, currentIndex, _cacheBytes, 0, _cacheLength - currentIndex);
+                _cacheLength -= currentIndex;
+                break;
+            }
         }
     }
 
